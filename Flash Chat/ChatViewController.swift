@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     // Declare instance variables here
 
@@ -28,15 +28,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         messageTableView.delegate = self
         messageTableView.dataSource = self
         
+        messageTextfield.delegate = self
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
         
-        //TODO: Set yourself as the delegate of the text field here:
-
-        
-        
-        //TODO: Set the tapGesture here:
-        
-        
+        messageTableView.addGestureRecognizer(tapGesture)
 
         messageTableView.register(UINib(nibName:"MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
 
@@ -52,7 +48,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customMessageCell", for: indexPath) as! CustomMessageCell
         
-        let messageArray = ["aaaaaaaaaaa","bbbbbbbbbbbbb","sfdfssfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsfdgjkfgdkghjkhdsgjhfkjsdhfjshdkjfhjksdhfjksdhfjkhskdhfjkhskjhdfjkshdkfsd"]
+        let messageArray = ["aaaaaaaaaaa","bbbbbbbbbbbbb","ccccccccccccc"]
         
         cell.messageBody.text = messageArray[indexPath.row]
         
@@ -67,7 +63,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    //TODO: Declare tableViewTapped here:
+    @objc func tableViewTapped(){
+        messageTextfield.endEditing(true)
+    }
     
     
     
@@ -81,16 +79,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     ///////////////////////////////////////////
     
     //MARK:- TextField Delegate Methods
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        UIView.animate(withDuration: 0.5) {
+            self.heightConstraint.constant = 308
+            self.view.layoutIfNeeded()
+        }
+    }
     
     
-
-    
-    //TODO: Declare textFieldDidBeginEditing here:
     
     
-    
-    
-    //TODO: Declare textFieldDidEndEditing here:
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        UIView.animate(withDuration: 0.5) {
+            self.heightConstraint.constant = 50
+            self.view.layoutIfNeeded()
+        }
+        
+    }
     
 
     
